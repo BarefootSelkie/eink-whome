@@ -18,7 +18,7 @@ img  = Image.new( mode = "P", size = inky_display.resolution )
 
 draw = ImageDraw.Draw(img)
 
- draw.rectangle(((0, 0), inky_display.resolution), inky_display.WHITE, None, 0)
+draw.rectangle(((0, 0), inky_display.resolution), inky_display.WHITE, None, 0)
 
 draw.text((inky_display.width / 2, 32), "Test namey", inky_display.BLACK, font=bigFont, anchor="mm")
 draw.text((8, 86), "she/it", inky_display.BLACK, font=smallFont, anchor="lm")
