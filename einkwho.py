@@ -44,9 +44,7 @@ def drawScreen():
         draw.text((inky_display.resolution[0] - 8, 86), "ty", inky_display.RED, font=smallFont, anchor="rm")
 
     # Rotate the image as the pi has power cables comming out the usb ports so is mounted gpio connector down
-    img = img.rotate(180)
-
-    return(img)
+    return(img.rotate(180))
 
 
 # Checkthe data is up to date on first run
