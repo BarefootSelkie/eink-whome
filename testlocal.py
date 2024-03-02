@@ -5,6 +5,10 @@ from PIL import Image, ImageFont, ImageDraw
 from font_hanken_grotesk import HankenGroteskBold, HankenGroteskMedium
 from pktools import pktools
 
+# GroupID of the group that displays a flag in the bottom right of the screen
+flagGroupId = "syuzl"
+flagGroup = [i for i in pktools.pkGroups if i["id"] == flagGroupId][0]
+
 # Set the fonts and sizes
 bigFont = ImageFont.truetype(HankenGroteskBold, int(44))
 smallFont = ImageFont.truetype(HankenGroteskBold, int(24))
@@ -21,23 +25,21 @@ img  = Image.new( mode = "RGB", size = resolution )
 # Create a varible that allows access to the drawing functions
 draw = ImageDraw.Draw(img)
 
-# The id of the group that will set the flag in the bottom right of the display
-flagGroup = ""
-
+# Checkthe data is up to date
 pktools.pullPeriodic()
 
 # Get the first member in the last switch
-firstFront = pktools.getMember(pktools.lastSwitch["members"][0])["name"]
-pronouns = str(pktools.getMember(pktools.lastSwitch["members"][0])["pronouns"])
-
+firstFront = pktools.getMember(pktools.lastSwitch["members"][0])
 
 # Draw a white background on the display
 draw.rectangle(((0, 0), resolution), WHITE, None, 0)
 
 # Draw text on the display
-draw.text((resolution[0] / 2, 32), firstFront, BLACK, font=bigFont, anchor="mm")
-draw.text((8, 86), pronouns, BLACK, font=smallFont, anchor="lm")
-draw.text((resolution[0] - 8, 86), "tiny", RED, font=smallFont, anchor="rm")
+draw.text((resolution[0] / 2, 32), firstFront["name"], BLACK, font=bigFont, anchor="mm")
+draw.text((8, 86), firstFront["pronouns"], BLACK, font=smallFont, anchor="lm")
+
+if firstFront["uuid"] in flagGroup["members"]:
+    draw.text((resolution[0] - 8, 86), "ty", RED, font=smallFont, anchor="rm")
 
 img.show()
 
