@@ -39,8 +39,12 @@ def drawScreen():
     draw.text((inky_display.resolution[0] / 2, 32), firstFront["name"], inky_display.BLACK, font=bigFont, anchor="mm")
     draw.text((8, 86), firstFront["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
 
+    # if member is in the flagGroup draw the flag
     if firstFront["uuid"] in flagGroup["members"]:
         draw.text((inky_display.resolution[0] - 8, 86), "ty", inky_display.RED, font=smallFont, anchor="rm")
+
+    # Rotate the image as the pi has power cables comming out the usb ports so is mounted gpio connector down
+    img.rotate(180)
 
     return(img)
 
