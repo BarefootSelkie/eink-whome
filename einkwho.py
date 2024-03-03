@@ -29,12 +29,17 @@ draw = ImageDraw.Draw(img)
 
 # Create and image to draw on the scren
 def drawScreen():
-    # Get the first member in the last switch
-    firstFront = pktools.getMember(pktools.lastSwitch["members"][0])
-
     # Draw a white background on the display
     draw.rectangle(((0, 0), inky_display.resolution), inky_display.WHITE, None, 0)
 
+    # Check if we are in the situation where no-one is switched in at all
+    if len(pktools.lastSwitch["members"]) == 0:
+        # TODO: show something if no-one is switched in
+        return()
+
+    # Get the first member in the last switch
+    firstFront = pktools.getMember(pktools.lastSwitch["members"][0])
+    
     # Draw text on the display
     draw.text((inky_display.resolution[0] / 2, 32), firstFront["name"], inky_display.BLACK, font=bigFont, anchor="mm")
     draw.text((8, 86), firstFront["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
