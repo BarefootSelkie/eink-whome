@@ -42,7 +42,8 @@ def drawScreen():
     
     # Draw text on the display
     draw.text((inky_display.resolution[0] / 2, 32), firstFront["name"], inky_display.BLACK, font=bigFont, anchor="mm")
-    draw.text((8, 86), firstFront["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
+    if firstFront["pronouns"] is not None:
+        draw.text((8, 86), firstFront["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
 
     # if member is in the flagGroup draw the flag
     if firstFront["uuid"] in flagGroup["members"]:
