@@ -35,7 +35,7 @@ def drawScreen():
     # Check if we are in the situation where no-one is switched in at all
     if len(pktools.lastSwitch["members"]) == 0:
         # TODO: show something if no-one is switched in
-        return()
+        return(img)
 
     # Get the first member in the last switch
     firstFront = pktools.getMember(pktools.lastSwitch["members"][0])
