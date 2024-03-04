@@ -59,7 +59,7 @@ def sendMessage(messageText):
     logging.info("Sending Discord message")
     message = {"content": messageText}
     try:
-        requests.post("https://discord.com/api/webhooks/" + pktools.apikeys["discord"]["serverID"] + "/" + pktools.apikeys["discord"]["token"], message)
+        requests.post("https://discord.com/api/webhooks/" + pktools.pktsettings["discord"]["serverID"] + "/" + pktools.pktsettings["discord"]["token"], message)
     except requests.exceptions.RequestException as e:
         logging.warning("Unable to send message to discord")
         logging.warning(e) 
