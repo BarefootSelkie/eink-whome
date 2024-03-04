@@ -20,8 +20,8 @@ flagGroupId = "syuzl"
 flagGroup = [i for i in pktools.pkGroups if i["id"] == flagGroupId][0]
 
 # Set the fonts and sizes
-bigFont = ImageFont.truetype(HankenGroteskBold, int(44))
-smallFont = ImageFont.truetype(HankenGroteskBold, int(24))
+bigFont = ImageFont.truetype("./LeagueSpartan-Bold.ttf", int(44))
+smallFont = ImageFont.truetype("./LeagueSpartan-Bold.ttf", int(24))
 
 # Create a varible that holds what will be drawn onto the screen
 img  = Image.new( mode = "P", size = inky_display.resolution )

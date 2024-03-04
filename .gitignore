@@ -1,6 +1,9 @@
 # Personal data
 data/*
 
+# Pretty fonts
+*.ttf
+
 # Logging
 *.log
 

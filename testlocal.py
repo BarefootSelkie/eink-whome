@@ -10,8 +10,8 @@ flagGroupId = "syuzl"
 flagGroup = [i for i in pktools.pkGroups if i["id"] == flagGroupId][0]
 
 # Set the fonts and sizes
-bigFont = ImageFont.truetype(HankenGroteskBold, int(44))
-smallFont = ImageFont.truetype(HankenGroteskBold, int(24))
+bigFont = ImageFont.truetype("./LeagueSpartan-Medium.ttf", int(44))
+smallFont = ImageFont.truetype("./LeagueSpartan-Medium.ttf", int(24))
 
 # Create a dummy screen matching the eink display
 resolution = (212, 104)
