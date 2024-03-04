@@ -2,6 +2,8 @@
 # This is for testing without a raspberry pi or eink display, it will create and image and open it in preview
 
 import time
+import requests
+import logging
 from PIL import Image, ImageFont, ImageDraw
 from font_hanken_grotesk import HankenGroteskBold, HankenGroteskMedium
 from pktools import pktools
@@ -52,6 +54,15 @@ def drawScreen():
     # Rotate the image as the pi has power cables comming out the usb ports so is mounted gpio connector down
     return(img.rotate(180))
 
+# Send a message to discord saying who's fronting
+def sendMessage(messageText):
+    logging.info("Sending Discord message")
+    message = {"content": messageText}
+    try:
+        requests.post("https://discord.com/api/webhooks/" + pktools.apikeys["discord"]["serverID"] + "/" + pktools.apikeys["discord"]["token"], message)
+    except requests.exceptions.RequestException as e:
+        logging.warning("Unable to send message to discord")
+        logging.warning(e) 
 
 # Checkthe data is up to date on first run
 pktools.pullPeriodic()
@@ -68,14 +79,17 @@ while True:
 
         # If the minute is divisable by five check for new fronters
         # this is for rate limiting and not hitting the pluralkit api too hard
-        if ( time.localtime()[4] % 5 ) == 0:
+        if ( time.localtime()[4] % 1 ) == 0:
             updateNeeded = pktools.pullPeriodic()
 
             # If pullPeriodic returns true update the screen and unset updateNeeded
             if updateNeeded:
                 inky_display.set_image(drawScreen())
                 inky_display.show()
+                for id in pktools.lastSwitch["members"]:
+                    member = pktools.getMember(id)
+                    sendMessage(member["name"])
                 updateNeeded = False
 
     # do nothing for a while
-    time.sleep(30)
+    time.sleep(5)
