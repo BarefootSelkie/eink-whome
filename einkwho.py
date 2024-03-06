@@ -89,7 +89,7 @@ while True:
                 for id in pktools.lastSwitch["members"]:
                     member = pktools.getMember(id)
                     sendMessage("Hi, " + member["name"] + "\n" + 
-                                "You last fronted: " + + str(pktools.rsSinceLastIn(id)) + " ago \n" + 
+                                "You last fronted: " + str(pktools.rsSinceLastIn(id)) + " ago \n" + 
                                 "Headspace time: " + str(pktools.hsTimeShort(pktools.hsSinceLastIn(id))))
                 updateNeeded = False
 
