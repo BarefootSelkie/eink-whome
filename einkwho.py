@@ -88,7 +88,7 @@ while True:
                 inky_display.show()
                 for id in pktools.lastSwitch["members"]:
                     member = pktools.getMember(id)
-                    sendMessage(member["name"])
+                    sendMessage("Hi, " + member["name"])
                 updateNeeded = False
 
     # do nothing for a while
