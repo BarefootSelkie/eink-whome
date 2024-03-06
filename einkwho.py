@@ -88,7 +88,9 @@ while True:
                 inky_display.show()
                 for id in pktools.lastSwitch["members"]:
                     member = pktools.getMember(id)
-                    sendMessage("Hi, " + member["name"])
+                    sendMessage("Hi, " + member["name"] + "\n" + 
+                                "You last fronted: " + + str(pktools.rsSinceLastIn(id)) + " ago \n" + 
+                                "Headspace time: " + str(pktools.hsTimeShort(pktools.hsSinceLastIn(id))))
                 updateNeeded = False
 
     # do nothing for a while
