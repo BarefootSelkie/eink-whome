@@ -77,9 +77,10 @@ while True:
     if minutePast != time.localtime()[4]:
         minutePast = time.localtime()[4]
 
-        # If the minute is divisable by five check for new fronters
+        # If the minute is divisable by updateInterval check for new fronters
         # this is for rate limiting and not hitting the pluralkit api too hard
-        if ( time.localtime()[4] % 1 ) == 0:
+        updateInterval = 5
+        if ( time.localtime()[4] % updateInterval ) == 0:
             updateNeeded = pktools.pullPeriodic()
 
             # If pullPeriodic returns true update the screen and unset updateNeeded
