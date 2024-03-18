@@ -91,8 +91,8 @@ while True:
                     member = pktools.getMember(id)
                     sendMessage("Hi, " + member["name"] + "\n" + 
                                 "You last fronted: " + "\n" +
-                                str(pktools.rsLastSeen(id))[:-10] + "ago \n" + 
-                                str(pktools.hsTimeShort(pktools.hsLastSeen(id)))) + "\n ---"
+                                str(pktools.rsLastSeen(id))[:-10] + " ago\n" + 
+                                str(pktools.hsTimeShort(pktools.hsLastSeen(id))) + "\n---")
                 updateNeeded = False
 
     # do nothing for a while
