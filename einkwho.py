@@ -94,12 +94,21 @@ while True:
                 inky_display.set_image(drawScreen(getFronter()))
                 inky_display.show()
 
-                for id in pktools.lastSwitch["members"]:
-                    member = pktools.getMember(id)
-                    sendMessage("Hi, " + member["name"] + "\n" + 
-                                "You last fronted: " + "\n" +
-                                str(pktools.rsLastSeen(id))[:-10] + " ago\n" + 
-                                str(pktools.hsTimeShort(pktools.hsLastSeen(id))) + "\n---", "full")
+                if pktools.pktsettings["discord"]["full"]["enabled"]:
+                    for id in pktools.lastSwitch["members"]:
+                        member = pktools.getMember(id)
+                        sendMessage("Hi, " + member["name"] + "\n" + 
+                                    "You last fronted: " + "\n" +
+                                    str(pktools.rsLastSeen(id))[:-10] + " ago\n" + 
+                                    str(pktools.hsTimeShort(pktools.hsLastSeen(id))) + "\n---", "full")
+                        
+                if pktools.pktsettings["discord"]["filtered"]["enabled"]:
+                    message = "Hi, "
+                    for id in pktools.lastSwitch["members"]:
+                        member = pktools.getMember(testPrivacy(id))
+                        message = message + member["name"] + ", "
+                    sendMessage(message, "filtered")
+                        
                 updateNeeded = False
 
     # do nothing for a while
