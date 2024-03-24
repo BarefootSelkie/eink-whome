@@ -94,20 +94,25 @@ while True:
                 inky_display.set_image(drawScreen(getFronter()))
                 inky_display.show()
                 
-                if pktools.pktsettings["discord"]["full"]["enabled"]:
-                    for id in pktools.lastSwitch["members"]:
-                        member = pktools.getMember(id)
-                        sendMessage("Hi, " + member["name"] + "\n" + 
-                                    "You last fronted: " + "\n" +
-                                    str(pktools.rsLastSeen(id))[:-10] + " ago\n" + 
-                                    str(pktools.hsTimeShort(pktools.hsLastSeen(id))) + "\n---", "full")
-                        
-                if pktools.pktsettings["discord"]["filtered"]["enabled"]:
-                    message = "Hi, "
-                    for id in pktools.lastSwitch["members"]:
-                        member = pktools.getMember(testPrivacy(id))
-                        message = message + member["name"] + " ( " + member["pronouns"] + " ), "
-                    sendMessage(message, "filtered")
+                # Check if not switched out
+                if len(pktools.lastSwitch["members"]) > 0:
+
+                    # Build and send full message
+                    if pktools.pktsettings["discord"]["full"]["enabled"]:
+                        for id in pktools.lastSwitch["members"]:
+                            member = pktools.getMember(id)
+                            sendMessage("Hi, " + member["name"] + "\n" + 
+                                        "You last fronted: " + "\n" +
+                                        str(pktools.rsLastSeen(id))[:-10] + " ago\n" + 
+                                        str(pktools.hsTimeShort(pktools.hsLastSeen(id))) + "\n---", "full")
+                    
+                    # Build and send filtered message
+                    if pktools.pktsettings["discord"]["filtered"]["enabled"]:
+                        message = "Hi, "
+                        for id in pktools.lastSwitch["members"]:
+                            member = pktools.getMember(testPrivacy(id))
+                            message = message + member["name"] + " ( " + member["pronouns"] + " ), "
+                        sendMessage(message, "filtered")
                         
                 updateNeeded = False
 
