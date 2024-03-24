@@ -61,11 +61,11 @@ def drawScreen(fronter):
     return(img.rotate(180))
 
 # Send a message to discord saying who's fronting
-def sendMessage(messageText):
+def sendMessage(messageText, mode):
     logging.info("Sending Discord message")
     message = {"content": messageText}
     try:
-        requests.post("https://discord.com/api/webhooks/" + pktools.pktsettings["discord"]["serverID"] + "/" + pktools.pktsettings["discord"]["token"], message)
+        requests.post("https://discord.com/api/webhooks/" + pktools.pktsettings["discord"][mode]["serverID"] + "/" + pktools.pktsettings["discord"][mode]["token"], message)
     except requests.exceptions.RequestException as e:
         logging.warning("Unable to send message to discord")
         logging.warning(e) 
@@ -99,7 +99,7 @@ while True:
                     sendMessage("Hi, " + member["name"] + "\n" + 
                                 "You last fronted: " + "\n" +
                                 str(pktools.rsLastSeen(id))[:-10] + " ago\n" + 
-                                str(pktools.hsTimeShort(pktools.hsLastSeen(id))) + "\n---")
+                                str(pktools.hsTimeShort(pktools.hsLastSeen(id))) + "\n---", "full")
                 updateNeeded = False
 
     # do nothing for a while
