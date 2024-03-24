@@ -29,26 +29,32 @@ img  = Image.new( mode = "P", size = inky_display.resolution )
 # Create a varible that allows access to the drawing functions
 draw = ImageDraw.Draw(img)
 
+# Checks if a system member is publicly visible and if not returns the default member
+def testPrivacy(id):
+    if pktools.getMember(id)["privacy"]["visibility"] == "private":
+        return pktools.pktsettings["defaultFronter"]
+    else: 
+        return id
+
+# Returns the member that should be displayed on the display
+def getFronter():
+    if len(pktools.lastSwitch["members"]) > 0:
+        return pktools.getMember(testPrivacy(pktools.lastSwitch["members"][0]))
+    else:
+        return pktools.getMember(pktools.pktsettings["defaultFronter"])
+
 # Create and image to draw on the scren
-def drawScreen():
+def drawScreen(fronter):
     # Draw a white background on the display
     draw.rectangle(((0, 0), inky_display.resolution), inky_display.WHITE, None, 0)
-
-    # Check if we are in the situation where no-one is switched in at all
-    if len(pktools.lastSwitch["members"]) == 0:
-        # TODO: show something if no-one is switched in
-        return(img)
-
-    # Get the first member in the last switch
-    firstFront = pktools.getMember(pktools.lastSwitch["members"][0])
     
     # Draw text on the display
-    draw.text((inky_display.resolution[0] / 2, 32), firstFront["name"], inky_display.BLACK, font=bigFont, anchor="mm")
-    if firstFront["pronouns"] is not None:
-        draw.text((8, 86), firstFront["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
+    draw.text((inky_display.resolution[0] / 2, 32), fronter["name"], inky_display.BLACK, font=bigFont, anchor="mm")
+    if fronter["pronouns"] is not None:
+        draw.text((8, 86), fronter["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
 
     # if member is in the flagGroup draw the flag
-    if firstFront["uuid"] in flagGroup["members"]:
+    if fronter["uuid"] in flagGroup["members"]:
         draw.text((inky_display.resolution[0] - 8, 86), "ty", inky_display.RED, font=smallFont, anchor="rm")
 
     # Rotate the image as the pi has power cables comming out the usb ports so is mounted gpio connector down
@@ -66,7 +72,7 @@ def sendMessage(messageText):
 
 # Checkthe data is up to date on first run
 pktools.pullPeriodic()
-inky_display.set_image(drawScreen())
+inky_display.set_image(drawScreen(getFronter()))
 inky_display.show()
 
 ### Main code loop ###
@@ -79,14 +85,15 @@ while True:
 
         # If the minute is divisable by updateInterval check for new fronters
         # this is for rate limiting and not hitting the pluralkit api too hard
-        updateInterval = 5
+        updateInterval = 1
         if ( time.localtime()[4] % updateInterval ) == 0:
             updateNeeded = pktools.pullPeriodic()
 
             # If pullPeriodic returns true update the screen and unset updateNeeded
             if updateNeeded:
-                inky_display.set_image(drawScreen())
+                inky_display.set_image(drawScreen(getFronter()))
                 inky_display.show()
+
                 for id in pktools.lastSwitch["members"]:
                     member = pktools.getMember(id)
                     sendMessage("Hi, " + member["name"] + "\n" + 
