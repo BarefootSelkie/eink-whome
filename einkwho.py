@@ -106,7 +106,7 @@ while True:
                     message = "Hi, "
                     for id in pktools.lastSwitch["members"]:
                         member = pktools.getMember(testPrivacy(id))
-                        message = message + member["name"] + "( " + member["pronouns"] + " ), "
+                        message = message + member["name"] + " ( " + member["pronouns"] + " ), "
                     sendMessage(message, "filtered")
                         
                 updateNeeded = False
