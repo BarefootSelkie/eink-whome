@@ -85,7 +85,7 @@ while True:
 
         # If the minute is divisable by updateInterval check for new fronters
         # this is for rate limiting and not hitting the pluralkit api too hard
-        updateInterval = 1
+        updateInterval = 5
         if ( time.localtime()[4] % updateInterval ) == 0:
             updateNeeded = pktools.pullPeriodic()
 
@@ -93,7 +93,7 @@ while True:
             if updateNeeded:
                 inky_display.set_image(drawScreen(getFronter()))
                 inky_display.show()
-
+                
                 if pktools.pktsettings["discord"]["full"]["enabled"]:
                     for id in pktools.lastSwitch["members"]:
                         member = pktools.getMember(id)
@@ -106,7 +106,7 @@ while True:
                     message = "Hi, "
                     for id in pktools.lastSwitch["members"]:
                         member = pktools.getMember(testPrivacy(id))
-                        message = message + member["name"] + ", "
+                        message = message + member["name"] + "( " + member["pronouns"] + " ), "
                     sendMessage(message, "filtered")
                         
                 updateNeeded = False
