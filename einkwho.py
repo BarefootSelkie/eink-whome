@@ -108,10 +108,18 @@ while True:
                     
                     # Build and send filtered message
                     if pktools.pktsettings["discord"]["filtered"]["enabled"]:
+                        index = len(pktools.lastSwitch["members"])
                         message = "Hi, "
+                        
                         for id in pktools.lastSwitch["members"]:
+                            index = index - 1
                             member = pktools.getMember(testPrivacy(id))
-                            message = message + member["name"] + " ( " + member["pronouns"] + " ), "
+                            message = message + member["name"]
+                            if member["pronouns"] is not None:
+                                message = message + " ( " + member["pronouns"] + " )"
+                            if index != 0:
+                                message = message + ", "
+                        
                         sendMessage(message, "filtered")
                         
                 updateNeeded = False
