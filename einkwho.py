@@ -108,6 +108,7 @@ while True:
                     
                     # Build and send filtered message
                     if pktools.pktsettings["discord"]["filtered"]["enabled"]:
+                        
                         index = len(pktools.lastSwitch["members"])
                         message = "Hi, "
                         
