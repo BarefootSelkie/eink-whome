@@ -111,7 +111,7 @@ while True:
                             if member["pronouns"] is not None:
                                 message = message + " ( " + member["pronouns"] + " )\n"
                             
-                            massage = message + "You last fronted: " + "\n" + str(pktools.rsLastSeen(id))[:-10] + " ago\n" + str(pktools.hsTimeShort(pktools.hsLastSeen(id))) 
+                            message = message + "You last fronted: " + "\n" + str(pktools.rsLastSeen(id))[:-10] + " ago\n" + str(pktools.hsTimeShort(pktools.hsLastSeen(id))) 
                             
                             if index != 0:
                                 message = message + "\n---"
