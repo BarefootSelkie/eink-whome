@@ -106,12 +106,12 @@ while True:
                         for id in pktools.lastSwitch["members"]:
                             index = index - 1
                             member = pktools.getMember(id)
-                            message = message + member["name"] + "\n"
+                            message = message + member["name"]
 
                             if member["pronouns"] is not None:
-                                message = message + " ( " + member["pronouns"] + " )\n"
+                                message = message + " ( " + member["pronouns"] + " )"
                             
-                            message = message + "You last fronted: " + "\n" + str(pktools.rsLastSeen(id))[:-10] + " ago\n" + str(pktools.hsTimeShort(pktools.hsLastSeen(id))) 
+                            message = message + "\nYou last fronted:\n" + str(pktools.rsLastSeen(id))[:-10] + " ago\n" + str(pktools.hsTimeShort(pktools.hsLastSeen(id))) 
                             
                             if index != 0:
                                 message = message + "\n---"
@@ -129,7 +129,7 @@ while True:
                             member = pktools.getMember(testPrivacy(id))
                             message = message + member["name"]
                             if member["pronouns"] is not None:
-                                message = message + "( " + member["pronouns"] + " )"
+                                message = message + " ( " + member["pronouns"] + " )"
                             if member["uuid"] in flagGroup["members"]:
                                 message = message + " 🔞"
                             if index != 0:
