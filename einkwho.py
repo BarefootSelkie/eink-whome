@@ -99,12 +99,24 @@ while True:
 
                     # Build and send full message
                     if pktools.pktsettings["discord"]["full"]["enabled"]:
+                        
+                        index = len(pktools.lastSwitch["members"])
+                        message = "Hi, "
+                    
                         for id in pktools.lastSwitch["members"]:
+                            index = index - 1
                             member = pktools.getMember(id)
-                            sendMessage("Hi, " + member["name"] + "\n" + 
-                                        "You last fronted: " + "\n" +
-                                        str(pktools.rsLastSeen(id))[:-10] + " ago\n" + 
-                                        str(pktools.hsTimeShort(pktools.hsLastSeen(id))) + "\n---", "full")
+                            message = message + member["name"] + "\n"
+
+                            if member["pronouns"] is not None:
+                                message = message + " ( " + member["pronouns"] + " )\n"
+                            
+                            massage = message + "You last fronted: " + "\n" + str(pktools.rsLastSeen(id))[:-10] + " ago\n" + str(pktools.hsTimeShort(pktools.hsLastSeen(id))) 
+                            
+                            if index != 0:
+                                message = message + "\n---"
+                        
+                        sendMessage(message, "full")
                     
                     # Build and send filtered message
                     if pktools.pktsettings["discord"]["filtered"]["enabled"]:
