@@ -129,7 +129,7 @@ while True:
                             member = pktools.getMember(testPrivacy(id))
                             message = message + member["name"]
                             if member["pronouns"] is not None:
-                                message = message + " ( " + member["pronouns"] + " )"
+                                message = message + "( " + member["pronouns"] + " )"
                             if member["uuid"] in flagGroup["members"]:
                                 message = message + " 🔞"
                             if index != 0:
