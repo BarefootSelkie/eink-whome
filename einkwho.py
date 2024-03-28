@@ -130,6 +130,8 @@ while True:
                             message = message + member["name"]
                             if member["pronouns"] is not None:
                                 message = message + " ( " + member["pronouns"] + " )"
+                            if member["uuid"] in flagGroup["members"]:
+                                message = message + " 🔞"
                             if index != 0:
                                 message = message + ", "
                         
