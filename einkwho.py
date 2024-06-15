@@ -99,7 +99,7 @@ while True:
 
         # If the minute is divisible by updateInterval check for new fronters
         # this is for rate limiting and not hitting the pluralkit api too hard
-        updateInterval = 5
+        updateInterval = 1
         if ( time.localtime()[4] % updateInterval ) == 0:
             updateNeeded = fetchState()
 
