@@ -45,6 +45,7 @@ state = { "lastSwitch": {"timestamp": "" }}
 
 # Returns the member that should be displayed on the display
 def getFronter():
+    global state
     id = state["lastSwitch"]["members"][0]
     return pktools.getMember(id, state["pkMembers"])
 
