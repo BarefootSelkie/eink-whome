@@ -54,10 +54,11 @@ def fetchState():
     global state
     logging.info("( fetchState )")
     try:
-        lastSwitch = requests.get("http://" + str(config["server"]) + ":" + str(config["port"]) + "/lastSwitch.json").json()
+        serverUrl = "http://" + str(config["server"]) + ":" + str(config["port"])
+        lastSwitch = requests.get(serverUrl + "/lastSwitch.json").json()
         if state["lastSwitch"]["timestamp"] != lastSwitch["timestamp"]:
-            state["pkGroups"] = requests.get(config["serveWhois"] + "/pkGroups.json").json()
-            state["pkMembers"] = requests.get(config["serveWhois"] + "/pkMembers.json").json()
+            state["pkGroups"] = requests.get(serverUrl + "/pkGroups.json").json()
+            state["pkMembers"] = requests.get(serverUrl + "/pkMembers.json").json()
             state["lastSwitch"] = lastSwitch
             return True
     except Exception as e:
