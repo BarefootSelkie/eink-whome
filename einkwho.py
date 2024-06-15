@@ -11,11 +11,11 @@ from pktools import pktools
 from inky.auto import auto
 
 # Logging setup
-logging.basicConfig(format="%(asctime)s : %(message)s", filename="einkwhois.log", encoding='utf-8', level=logging.INFO)
+logging.basicConfig(format="%(asctime)s : %(message)s", filename="einkwho.log", encoding='utf-8', level=logging.INFO)
 
 # Load settings
 try:
-    with open("./config-einkwhois.yaml", "r") as read_file:
+    with open("./config-einkwho.yaml", "r") as read_file:
         config = yaml.safe_load(read_file)
 except:
     logging.critical("Settings file missing")
