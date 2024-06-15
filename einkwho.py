@@ -47,7 +47,8 @@ state = { "lastSwitch": {"timestamp": "" }}
 def getFronter():
     global state
     id = state["lastSwitch"]["members"][0]
-    return pktools.getMember(id, state["pkMembers"])
+    member, private = pktools.getMember(id, state["pkMembers"])
+    return member
 
 def fetchState():
     global state
