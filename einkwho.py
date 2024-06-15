@@ -3,6 +3,7 @@
 
 import time
 import yaml
+import requests
 import json
 import logging
 from PIL import Image, ImageFont, ImageDraw
@@ -27,8 +28,8 @@ except TypeError:
     raise TypeError("You need to update the Inky library to >= v1.1.0")
 
 # GroupID of the group that displays a flag in the bottom right of the screen
-flagGroupId = "syuzl"
-flagGroup = [i for i in pktools.pkGroups if i["id"] == flagGroupId][0]
+#flagGroupId = "syuzl"
+#flagGroup = [i for i in pktools.pkGroups if i["id"] == flagGroupId][0]
 
 # Set the fonts and sizes
 bigFont = ImageFont.truetype("./LeagueSpartan-Medium.ttf", int(44))
@@ -40,13 +41,28 @@ img  = Image.new( mode = "P", size = inky_display.resolution )
 # Create a variable that allows access to the drawing functions
 draw = ImageDraw.Draw(img)
 
+state = {}
 
 # Returns the member that should be displayed on the display
 def getFronter():
-    a = 1
+    id = state["lastSwitch"]["members"][0]
+    return pktools.getMember(id, state["pkMembers"])
 
 def fetchState():
-    b=1
+    global state
+    logging.info("( fetchState )")
+    try:
+        lastSwitch = requests.get(config.serveWhois + "/lastSwitch.json").json()
+        if state["lastSwitch"]["timestamp"] != lastSwitch["timestamp"]:
+            state["pkGroups"] = requests.get(config.serveWhois + "/pkGroups.json").json()
+            state["pkMembers"] = requests.get(config.serveWhois + "/pkMembers.json").json()
+            state["lastSwitch"] = lastSwitch
+            return True
+    except Exception as e:
+        logging.warning("( fetchState )")
+        logging.warning(e)
+    return False
+
 
 # Create and image to draw on the screen
 def drawScreen(fronter):
@@ -59,8 +75,8 @@ def drawScreen(fronter):
         draw.text((8, 86), fronter["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
 
     # if member is in the flagGroup draw the flag
-    if fronter["uuid"] in flagGroup["members"]:
-        draw.text((inky_display.resolution[0] - 8, 86), "ty", inky_display.RED, font=smallFont, anchor="rm")
+    #if fronter["uuid"] in flagGroup["members"]:
+    #    draw.text((inky_display.resolution[0] - 8, 86), "ty", inky_display.RED, font=smallFont, anchor="rm")
 
     # Rotate the image as the pi has power cables coming out the usb ports so is mounted gpio connector down
     return(img.rotate(180))
