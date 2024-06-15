@@ -41,7 +41,7 @@ img  = Image.new( mode = "P", size = inky_display.resolution )
 # Create a variable that allows access to the drawing functions
 draw = ImageDraw.Draw(img)
 
-state = {}
+state = { "lastSwitch": {"timestamp": "" }}
 
 # Returns the member that should be displayed on the display
 def getFronter():
