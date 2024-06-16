@@ -48,6 +48,8 @@ def getFronter():
     global state
     id = state["lastSwitch"]["members"][0]
     member, private = pktools.getMember(id, state["pkMembers"])
+    if private:
+        member, private = pktools.getMember("ogymz", state["pkMembers"])
     return member
 
 def fetchState():
