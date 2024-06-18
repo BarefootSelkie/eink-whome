@@ -46,6 +46,8 @@ state = { "lastSwitch": {"timestamp": "" }}
 # Returns the member that should be displayed on the display
 def getFronter():
     global state
+    if len(state["lastSwitch"]["members"]) == 0:
+        return None
     id = state["lastSwitch"]["members"][0]
     member, private = pktools.getMember(id, state["pkMembers"])
     if private:
@@ -74,10 +76,11 @@ def drawScreen(fronter):
     # Draw a white background on the display
     draw.rectangle(((0, 0), inky_display.resolution), inky_display.WHITE, None, 0)
     
-    # Draw text on the display
-    draw.text((inky_display.resolution[0] / 2, 32), fronter["name"], inky_display.BLACK, font=bigFont, anchor="mm")
-    if fronter["pronouns"] is not None:
-        draw.text((8, 86), fronter["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
+    if fronter is not None:    
+        # Draw text on the display
+        draw.text((inky_display.resolution[0] / 2, 32), fronter["name"], inky_display.BLACK, font=bigFont, anchor="mm")
+        if fronter["pronouns"] is not None:
+            draw.text((8, 86), fronter["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
 
     # if member is in the flagGroup draw the flag
     #if fronter["uuid"] in flagGroup["members"]:
