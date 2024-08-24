@@ -11,7 +11,7 @@ from pktools import pktools
 from inky.auto import auto
 
 # Logging setup
-logging.basicConfig(format="%(asctime)s : %(message)s", filename="einkwho.log", encoding='utf-8', level=logging.INFO)
+logging.basicConfig(format="%(asctime)s : %(message)s", filename="einkwho.log", encoding='utf-8', level=logging.WARN)
 
 # Load settings
 try:
