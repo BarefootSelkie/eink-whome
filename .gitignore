@@ -2,11 +2,8 @@
 config-eink-whome.yaml
 *.log
 
-# Copyrighted stuff
-fonts/*
-
-# Logging
-*.log
+# Other peeps stuff
+*.ttf
 
 # MacOS Nonsense
 .DS*

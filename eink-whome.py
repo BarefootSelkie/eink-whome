@@ -9,7 +9,7 @@ from pktools import pktools
 from inky.auto import auto
 
 # Logging setup
-logging.basicConfig(format="%(asctime)s : %(message)s", filename="./logs/eink-whome.log", encoding='utf-8', level=logging.WARN)
+logging.basicConfig(format="%(asctime)s : %(message)s", filename="./log-eink-whome.log", encoding='utf-8', level=logging.WARN)
 
 # Load settings
 try:
@@ -30,8 +30,8 @@ except TypeError:
 #flagGroup = [i for i in pktools.pkGroups if i["id"] == flagGroupId][0]
 
 # Set the fonts and sizes
-bigFont = ImageFont.truetype("./fonts/LeagueSpartan-Medium.ttf", int(44))
-smallFont = ImageFont.truetype("./fonts/LeagueSpartan-Medium.ttf", int(24))
+bigFont = ImageFont.truetype("./LeagueSpartan-Medium.ttf", int(44))
+smallFont = ImageFont.truetype("./LeagueSpartan-Medium.ttf", int(24))
 
 # Create a variable that holds what will be drawn onto the screen
 img  = Image.new( mode = "P", size = inky_display.resolution )
