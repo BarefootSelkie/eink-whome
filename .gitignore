@@ -1,8 +1,9 @@
 # Personal data
-config-einkwho.yaml
+config-eink-whome.yaml
+*.log
 
-# Pretty fonts
-*.ttf
+# Copyrighted stuff
+fonts/*
 
 # Logging
 *.log

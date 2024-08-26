@@ -1,21 +1,19 @@
 #!/usr/bin/env python3
-# This is for testing without a raspberry pi or eink display, it will create and image and open it in preview
 
 import time
 import yaml
 import requests
-import json
 import logging
 from PIL import Image, ImageFont, ImageDraw
 from pktools import pktools
 from inky.auto import auto
 
 # Logging setup
-logging.basicConfig(format="%(asctime)s : %(message)s", filename="einkwho.log", encoding='utf-8', level=logging.WARN)
+logging.basicConfig(format="%(asctime)s : %(message)s", filename="./logs/eink-whome.log", encoding='utf-8', level=logging.WARN)
 
 # Load settings
 try:
-    with open("./config-einkwho.yaml", "r") as read_file:
+    with open("./config-eink-whome.yaml", "r") as read_file:
         config = yaml.safe_load(read_file)
 except:
     logging.critical("Settings file missing")
@@ -32,8 +30,8 @@ except TypeError:
 #flagGroup = [i for i in pktools.pkGroups if i["id"] == flagGroupId][0]
 
 # Set the fonts and sizes
-bigFont = ImageFont.truetype("./LeagueSpartan-Medium.ttf", int(44))
-smallFont = ImageFont.truetype("./LeagueSpartan-Medium.ttf", int(24))
+bigFont = ImageFont.truetype("./fonts/LeagueSpartan-Medium.ttf", int(44))
+smallFont = ImageFont.truetype("./fonts/LeagueSpartan-Medium.ttf", int(24))
 
 # Create a variable that holds what will be drawn onto the screen
 img  = Image.new( mode = "P", size = inky_display.resolution )
