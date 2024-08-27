@@ -80,7 +80,12 @@ def drawScreen(fronter):
         # Draw the card suit if one exists
         for member in state["memberList"]:
             if member["memberId"] == fronter["id"]:
-                draw.text((inky_display.resolution[0] - 8, 86), member["cardsName"], inky_display.RED, font=symbolFont, anchor="rm")
+                if member["cardsName"] in ["♠", "♣"]:
+                    cardColour = inky_display.BLACK
+                else:
+                    cardColour = inky_display.RED
+                cardSuit = member["cardsName"][:1]
+                draw.text((inky_display.resolution[0] - 8, 86), cardSuit, cardColour, font=symbolFont, anchor="rm")
 
     # Rotate the image as the pi has power cables coming out the usb ports so is mounted gpio connector down
     return(img.rotate(180))
