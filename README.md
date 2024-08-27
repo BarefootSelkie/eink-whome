@@ -17,3 +17,4 @@ screen is divided up into a top section of 64 px that will display the name, a 4
 - Get yaml and requests `pip install pyyaml requests`
 - If there server is not local update the ip address and port to point at correct server location
 - Download the font `wget https://github.com/theleagueof/league-spartan/raw/master/fonts/ttf/LeagueSpartan-Medium.ttf`
+- Download the font `wget https://cdn.jsdelivr.net/gh/notofonts/notofonts.github.io/fonts/NotoSansSymbols2/full/ttf/NotoSansSymbols2-Regular.ttf`

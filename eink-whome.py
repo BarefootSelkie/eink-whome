@@ -25,13 +25,10 @@ try:
 except TypeError:
     raise TypeError("You need to update the Inky library to >= v1.1.0")
 
-# GroupID of the group that displays a flag in the bottom right of the screen
-#flagGroupId = "syuzl"
-#flagGroup = [i for i in pktools.pkGroups if i["id"] == flagGroupId][0]
-
 # Set the fonts and sizes
 bigFont = ImageFont.truetype("./LeagueSpartan-Medium.ttf", int(44))
 smallFont = ImageFont.truetype("./LeagueSpartan-Medium.ttf", int(24))
+symbolFont = ImageFont.truetype("./NotoSansSymbols2-Regular.ttf", int(24))
 
 # Create a variable that holds what will be drawn onto the screen
 img  = Image.new( mode = "P", size = inky_display.resolution )
@@ -59,8 +56,8 @@ def fetchState():
         serverUrl = "http://" + str(config["server"]) + ":" + str(config["port"])
         lastSwitch = requests.get(serverUrl + "/lastSwitch.json").json()
         if state["lastSwitch"]["timestamp"] != lastSwitch["timestamp"]:
-            state["pkGroups"] = requests.get(serverUrl + "/pkGroups.json").json()
             state["pkMembers"] = requests.get(serverUrl + "/pkMembers.json").json()
+            state["memberList"] = requests.get(serverUrl + "/memberList.json").json()
             state["lastSwitch"] = lastSwitch
             return True
     except Exception as e:
@@ -80,9 +77,10 @@ def drawScreen(fronter):
         if fronter["pronouns"] is not None:
             draw.text((8, 86), fronter["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
 
-    # if member is in the flagGroup draw the flag
-    #if fronter["uuid"] in flagGroup["members"]:
-    #    draw.text((inky_display.resolution[0] - 8, 86), "ty", inky_display.RED, font=smallFont, anchor="rm")
+        # Draw the card suit if one exists
+        for member in state["memberList"]:
+            if member["memberId"] == fronter:
+                draw.text((inky_display.resolution[0] - 8, 86), member["cardsName"], inky_display.RED, font=symbolFont, anchor="rm")
 
     # Rotate the image as the pi has power cables coming out the usb ports so is mounted gpio connector down
     return(img.rotate(180))
