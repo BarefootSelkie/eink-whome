@@ -85,7 +85,7 @@ def drawScreen(fronter):
                     cardColour = inky_display.BLACK
                 else:
                     cardColour = inky_display.RED
-                draw.text((inky_display.resolution[0] - 6, 86), cardSuit, cardColour, font=symbolFont, anchor="rm")
+                draw.text((inky_display.resolution[0] - 6, 92), cardSuit, cardColour, font=symbolFont, anchor="rm")
 
     # Rotate the image as the pi has power cables coming out the usb ports so is mounted gpio connector down
     return(img.rotate(180))
