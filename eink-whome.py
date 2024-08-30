@@ -71,7 +71,7 @@ def getFirstFronter(currentFronters):
         display["pronouns"] = firstFronter["pronouns"]
     else:
       display["name"] = currentFronters["system"]["name"]
-      if state.pkSystem["pronouns"] is not None:
+      if currentFronters["system"]["pronouns"] is not None:
         display["pronouns"] = currentFronters["system"]["pronouns"]
         
     if firstFronter["cardsName"] is not None:
