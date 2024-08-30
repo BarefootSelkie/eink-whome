@@ -89,11 +89,11 @@ def drawScreen(displayText):
   
   draw.text((inky_display.resolution[0] / 2, 32), displayText["name"], inky_display.BLACK, font=bigFont, anchor="mm")
 
-  if displayText["pronouns"] is not None:
+  if "pronouns" in displayText and displayText["pronouns"] is not None:
     draw.text((8, 86), displayText["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
 
   # Draw the card suit if one exists
-  if displayText["cardSuit"] is not None:
+  if "cardSuit" in displayText and displayText["cardSuit"] is not None:
     cardSuit = displayText["cardSuit"][:1]
     if cardSuit in ["♠", "♣"]:
       cardColour = inky_display.BLACK
