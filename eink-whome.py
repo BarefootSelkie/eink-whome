@@ -61,7 +61,7 @@ def getFirstFronter(currentFronters):
   display = {}
 
   if len(state["lastSwitch"]["members"]) == 0:
-    display["name"] = "zzz"
+    display["name"] = str(config["outMessage"])
   else:
     firstFronter = currentFronters["members"][0]
     
@@ -137,7 +137,7 @@ while True:
     # this is for rate limiting and not hitting the pluralkit api too hard
     updateInterval = 1
     if ( time.localtime()[4] % updateInterval ) == 0:
-      updateNeeded = fetchState()
+      updateNeeded, currentFronters = fetchState()
 
       # If pullPeriodic returns true update the screen and unset updateNeeded
       if updateNeeded:
