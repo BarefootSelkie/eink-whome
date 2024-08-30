@@ -14,7 +14,7 @@ parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose
 args = parser.parse_args()
 
 if args.verbose:
-    logging.basicConfig(format="%(asctime)s : %(message)s", filename="log-eink-whome.log", encoding='utf-8', level=logging.INFO)
+    logging.basicConfig(format="%(asctime)s : %(message)s", filename="log-eink-whome.log", encoding='utf-8', level=logging.DEBUG)
 else:
     logging.basicConfig(format="%(asctime)s : %(message)s", filename="log-eink-whome.log", encoding='utf-8', level=logging.WARN)
 
