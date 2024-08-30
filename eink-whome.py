@@ -8,8 +8,15 @@ from PIL import Image, ImageFont, ImageDraw
 from pktools import pktools
 from inky.auto import auto
 
-# Logging setup
-logging.basicConfig(format="%(asctime)s : %(message)s", filename="./log-eink-whome.log", encoding='utf-8', level=logging.WARN)
+# Arguments and logging
+parser = argparse.ArgumentParser()
+parser.add_argument("-v", "--verbose", action="store_true", help="Enable verbose logging")
+args = parser.parse_args()
+
+if args.verbose:
+    logging.basicConfig(format="%(asctime)s : %(message)s", filename="log-eink-whome.log", encoding='utf-8', level=logging.INFO)
+else:
+    logging.basicConfig(format="%(asctime)s : %(message)s", filename="log-eink-whome.log", encoding='utf-8', level=logging.WARN)
 
 # Load settings
 try:
