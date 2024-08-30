@@ -77,7 +77,7 @@ def checkFronters(storedFronters):
     logging.warning("Cannot fetch current front ( checkFronters() )")
     logging.warning(e)
   
-  if currentFronters["switch"]["timestamp"] != storedFronters["switch"]["timestamp"]:
+  if storedFronters is None or currentFronters["switch"]["timestamp"] != storedFronters["switch"]["timestamp"]:
     return True, currentFronters
   else:
     return False, storedFronters
