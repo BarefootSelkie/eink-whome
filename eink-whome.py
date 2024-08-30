@@ -58,26 +58,26 @@ def getFronter():
   return member
 
 def getFirstFronter(currentFronters):
-  display = {}
+  displayText = {}
 
-  if len(state["lastSwitch"]["members"]) == 0:
-    display["name"] = str(config["outMessage"])
+  if len(currentFronters["members"]) == 0:
+    displayText["name"] = str(config["outMessage"])
   else:
     firstFronter = currentFronters["members"][0]
     
     if firstFronter["visible"]:
-      display["name"] = firstFronter["name"]
+      displayText["name"] = firstFronter["name"]
       if firstFronter["memberPronouns"] is not None:
-        display["pronouns"] = firstFronter["pronouns"]
+        displayText["pronouns"] = firstFronter["pronouns"]
     else:
-      display["name"] = currentFronters["system"]["name"]
+      displayText["name"] = currentFronters["system"]["name"]
       if currentFronters["system"]["pronouns"] is not None:
-        display["pronouns"] = currentFronters["system"]["pronouns"]
+        displayText["pronouns"] = currentFronters["system"]["pronouns"]
         
     if firstFronter["cardsName"] is not None:
-      display["cardsName"] = firstFronter["cardsName"]
+      displayText["cardsName"] = firstFronter["cardsName"]
   
-  return display
+  return displayText
 
 def fetchState():
   global state
@@ -96,19 +96,19 @@ def fetchState():
 
 
 # Create and image to draw on the screen
-def drawScreen(fronter):
+def drawScreen(displayText):
   # Draw a white background on the display
   draw.rectangle(((0, 0), inky_display.resolution), inky_display.WHITE, None, 0)
   
-  if fronter is not None:  
+  if displayText is not None:  
     # Draw text on the display
-    draw.text((inky_display.resolution[0] / 2, 32), fronter["name"], inky_display.BLACK, font=bigFont, anchor="mm")
-    if fronter["pronouns"] is not None:
-      draw.text((8, 86), fronter["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
+    draw.text((inky_display.resolution[0] / 2, 32), displayText["name"], inky_display.BLACK, font=bigFont, anchor="mm")
+    if displayText["pronouns"] is not None:
+      draw.text((8, 86), displayText["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
 
     # Draw the card suit if one exists
     for member in state["memberList"]:
-      if member["memberId"] == fronter["id"]:
+      if member["memberId"] == displayText["id"]:
         cardSuit = member["cardsName"][:1]
         if cardSuit in ["♠", "♣"]:
           cardColour = inky_display.BLACK
