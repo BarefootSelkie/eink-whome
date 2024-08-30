@@ -47,16 +47,6 @@ draw = ImageDraw.Draw(img)
 state = { "lastSwitch": {"timestamp": "" }}
 
 # Returns the member that should be displayed on the display
-def getFronter():
-  global state
-  if len(state["lastSwitch"]["members"]) == 0:
-    return None
-  id = state["lastSwitch"]["members"][0]
-  member, private = pktools.getMember(id, state["pkMembers"])
-  if private:
-    member, private = pktools.getMember("ogymz", state["pkMembers"])
-  return member
-
 def getFirstFronter(currentFronters):
   displayText = {}
 
@@ -67,65 +57,63 @@ def getFirstFronter(currentFronters):
     
     if firstFronter["visible"]:
       displayText["name"] = firstFronter["name"]
-      if firstFronter["memberPronouns"] is not None:
+      if firstFronter["pronouns"] is not None:
         displayText["pronouns"] = firstFronter["pronouns"]
     else:
       displayText["name"] = currentFronters["system"]["name"]
       if currentFronters["system"]["pronouns"] is not None:
         displayText["pronouns"] = currentFronters["system"]["pronouns"]
         
-    if firstFronter["cardsName"] is not None:
-      displayText["cardsName"] = firstFronter["cardsName"]
+    if firstFronter["cardSuit"] is not None:
+      displayText["cardSuit"] = firstFronter["cardSuit"]
   
   return displayText
 
-def fetchState():
-  global state
+def checkFronters(storedFronters):
   try:
     serverUrl = "http://" + str(config["server"]) + ":" + str(config["port"])
-    lastSwitch = requests.get(serverUrl + "/lastSwitch.json").json()
-    if state["lastSwitch"]["timestamp"] != lastSwitch["timestamp"]:
-      state["pkMembers"] = requests.get(serverUrl + "/pkMembers.json").json()
-      state["memberList"] = requests.get(serverUrl + "/memberList.json").json()
-      state["lastSwitch"] = lastSwitch
-      return True
+    currentFronters = requests.get(serverUrl + "/currentFronters.json").json()  
   except Exception as e:
-    logging.warning("Cannot fetch current front ( fetchState() )")
+    logging.warning("Cannot fetch current front ( checkFronters() )")
     logging.warning(e)
-  return False
-
+  
+  if currentFronters["switch"]["timestamp"] != storedFronters["switch"]["timestamp"]:
+    return True, currentFronters
+  else:
+    return False, storedFronters
 
 # Create and image to draw on the screen
 def drawScreen(displayText):
   # Draw a white background on the display
   draw.rectangle(((0, 0), inky_display.resolution), inky_display.WHITE, None, 0)
   
-  if displayText is not None:  
-    # Draw text on the display
-    draw.text((inky_display.resolution[0] / 2, 32), displayText["name"], inky_display.BLACK, font=bigFont, anchor="mm")
-    if displayText["pronouns"] is not None:
-      draw.text((8, 86), displayText["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
+  draw.text((inky_display.resolution[0] / 2, 32), displayText["name"], inky_display.BLACK, font=bigFont, anchor="mm")
 
-    # Draw the card suit if one exists
-    for member in state["memberList"]:
-      if member["memberId"] == displayText["id"]:
-        cardSuit = member["cardsName"][:1]
-        if cardSuit in ["♠", "♣"]:
-          cardColour = inky_display.BLACK
-        else:
-          cardColour = inky_display.RED
-        draw.text((inky_display.resolution[0] - 6, 92), cardSuit, cardColour, font=symbolFont, anchor="rm")
+  if displayText["pronouns"] is not None:
+    draw.text((8, 86), displayText["pronouns"], inky_display.BLACK, font=smallFont, anchor="lm")
+
+  # Draw the card suit if one exists
+  cardSuit = displayText["cardSuit"][:1]
+  if cardSuit in ["♠", "♣"]:
+    cardColour = inky_display.BLACK
+  else:
+    cardColour = inky_display.RED
+
+  draw.text((inky_display.resolution[0] - 6, 92), cardSuit, cardColour, font=symbolFont, anchor="rm")
 
   # Rotate the image as the pi has power cables coming out the usb ports so is mounted gpio connector down
   return(img.rotate(180))
 
+### Main Code ###
 
-# Check the data is up to date on first run
-fetchState()
-inky_display.set_image(drawScreen(getFronter()))
+# Make a blank storedFronters object and then check the server for the up to date infomation
+storedFronters = {}
+updateNeeded, storedFronters = checkFronters(storedFronters)
+
+inky_display.set_image(drawScreen(getFirstFronter(storedFronters)))
 inky_display.show()
 
-### Main code loop ###
+### Main Loop ###
 minutePast = 0
 
 while True:
@@ -135,15 +123,15 @@ while True:
 
     # If the minute is divisible by updateInterval check for new fronters
     # this is for rate limiting and not hitting the pluralkit api too hard
-    updateInterval = 1
-    if ( time.localtime()[4] % updateInterval ) == 0:
-      updateNeeded, currentFronters = fetchState()
+   
+    if ( time.localtime()[4] % config["updateInterval"] ) == 0:
+      updateNeeded, currentFronters = checkFronters(storedFronters)
 
-      # If pullPeriodic returns true update the screen and unset updateNeeded
+      # If checkFronters returns true update the screen and unset updateNeeded
       if updateNeeded:
-        inky_display.set_image(drawScreen(getFronter()))
+        inky_display.set_image(drawScreen(getFirstFronter(currentFronters)))
         inky_display.show()
-        updateNeeded = False
+        storedFronters = currentFronters
 
   # do nothing for a while
   time.sleep(5)
