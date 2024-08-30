@@ -108,7 +108,7 @@ def drawScreen(displayText):
 ### Main Code ###
 
 # Make a blank storedFronters object and then check the server for the up to date infomation
-storedFronters = {}
+storedFronters = None
 updateNeeded, storedFronters = checkFronters(storedFronters)
 
 inky_display.set_image(drawScreen(getFirstFronter(storedFronters)))
