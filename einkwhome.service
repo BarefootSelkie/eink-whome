@@ -1,0 +1,10 @@
+[Unit]
+Description=eInk WhoMe
+
+[Service]
+WorkingDirectory=/home/whome/eink-whome/
+ExecStart=/home/whome/eink-whome/eink-whome.py
+
+[Install]
+WantedBy=multi-user.target
+Alias=einkwhome.service
