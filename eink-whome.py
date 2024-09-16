@@ -39,7 +39,7 @@ smallFont = ImageFont.truetype("./LeagueSpartan-Medium.ttf", int(24))
 symbolFont = ImageFont.truetype("./NotoSansSymbols2-Regular.ttf", int(32))
 
 # Create a variable that holds what will be drawn onto the screen
-img  = Image.new( mode = "P", size = inky_display.resolution )
+img = Image.new( mode = "P", size = inky_display.resolution )
 
 # Create a variable that allows access to the drawing functions
 draw = ImageDraw.Draw(img)
